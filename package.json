@@ -1,0 +1,12 @@
+{
+    "name": "soa-2021-nodered-completo",
+    "description": "soa-2021-nodered-completo",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}
