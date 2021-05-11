@@ -2,7 +2,10 @@
     "name": "soa-2021-nodered-completo",
     "description": "soa-2021-nodered-completo",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-dashboard": "2.29.0",
+        "node-red-node-ui-table": "0.3.10"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows.json",

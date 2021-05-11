@@ -229,6 +229,119 @@
         "sessionExpiry": ""
     },
     {
+        "id": "2957a57c.1d533a",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "db6c3563.9fadb8",
+        "type": "ui_tab",
+        "name": "Tab 1",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "9a1f3ad0.af8888",
+        "type": "ui_group",
+        "name": "Bandas de Metal",
+        "tab": "db6c3563.9fadb8",
+        "order": 1,
+        "disp": true,
+        "width": "16",
+        "collapse": false
+    },
+    {
         "id": "8278afd1.fa8ce",
         "type": "mqtt out",
         "z": "4757679.43f3b98",
@@ -1303,6 +1416,149 @@
         "y": 160,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "56c830c5.fb1dc",
+        "type": "ui_table",
+        "z": "24981b42.ce91d4",
+        "group": "9a1f3ad0.af8888",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 1130,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e801c609.d6faa8",
+        "type": "function",
+        "z": "24981b42.ce91d4",
+        "name": "Prepare request",
+        "func": "msg.url= flow.get(\"config\").urlBase +\"api/v1/dummy?token=\"+flow.get(\"auth\").authtoken\nmsg.requestTimeout=1000;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 520,
+        "wires": [
+            [
+                "e57c4bd3.739f18"
+            ]
+        ]
+    },
+    {
+        "id": "e57c4bd3.739f18",
+        "type": "http request",
+        "z": "24981b42.ce91d4",
+        "name": "Get Bandas de Metal",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 560,
+        "y": 520,
+        "wires": [
+            [
+                "3d9ea81b.b031e8"
+            ]
+        ]
+    },
+    {
+        "id": "3d9ea81b.b031e8",
+        "type": "switch",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 780,
+        "y": 540,
+        "wires": [
+            [
+                "1139cc8c.df7cb3"
+            ]
+        ]
+    },
+    {
+        "id": "e507f6e4.9f3d78",
+        "type": "inject",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 480,
+        "wires": [
+            [
+                "e801c609.d6faa8"
+            ]
+        ]
+    },
+    {
+        "id": "8634a579.2c1e68",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "1139cc8c.df7cb3",
+        "type": "json",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 960,
+        "y": 600,
+        "wires": [
+            [
+                "56c830c5.fb1dc",
+                "8634a579.2c1e68"
+            ]
         ]
     }
 ]
