@@ -1,1 +1,1308 @@
-[{"id":"4757679.43f3b98","type":"tab","label":"Flow 1","disabled":true,"info":""},{"id":"24981b42.ce91d4","type":"tab","label":"Proceso principal","disabled":false,"info":""},{"id":"8d22bb17.6d6ed8","type":"subflow","name":"Status Backend","info":"","category":"","in":[{"x":50,"y":30,"wires":[{"id":"e3e20e74.108d"}]}],"out":[{"x":1500,"y":340,"wires":[{"id":"7bfbf863.f321a8","port":0}]},{"x":1500,"y":380,"wires":[{"id":"7bfbf863.f321a8","port":1}]},{"x":1500,"y":420,"wires":[{"id":"7bfbf863.f321a8","port":2}]},{"x":1500,"y":460,"wires":[{"id":"7bfbf863.f321a8","port":3}]},{"x":1500,"y":500,"wires":[{"id":"532780da.20f42","port":0},{"id":"7bfbf863.f321a8","port":4}]}],"env":[],"meta":{},"color":"#DDAA99","outputLabels":["Autenticado OK","No Autenticado","No Autorizado","No Conectado","Desconocido"],"status":{"x":1820,"y":60,"wires":[{"id":"c391db61.de3918","port":0}]}},{"id":"374210af.de614","type":"subflow","name":"Autenticación","info":"","category":"","in":[{"x":50,"y":30,"wires":[{"id":"2f2e21bb.b9579e"}]}],"out":[{"x":1960,"y":60,"wires":[{"id":"dc3a0292.537d1","port":0}]},{"x":1760,"y":360,"wires":[{"id":"a802529.f91e2b","port":0},{"id":"ad8cbc56.8a55a","port":0}]},{"x":1160,"y":160,"wires":[{"id":"6734bcea.e29224","port":0}]}],"env":[{"name":"username","type":"str","value":"randy"},{"name":"password","type":"str","value":"password"}],"meta":{},"color":"#DDAA99","outputLabels":["OK","ERR","Pidiendo Token"],"status":{"x":1300,"y":540,"wires":[{"id":"a802529.f91e2b","port":0},{"id":"18598155.d925af","port":0},{"id":"6734bcea.e29224","port":0},{"id":"ad8cbc56.8a55a","port":0}]}},{"id":"d1a17b07.d315c8","type":"mqtt-broker","name":"soa2021.mooo.com","broker":"soa2021.mooo.com","port":"1883","tls":"","clientid":"","usetls":false,"protocolVersion":"4","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"8278afd1.fa8ce","type":"mqtt out","z":"4757679.43f3b98","name":"","topic":"test","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"d1a17b07.d315c8","x":450,"y":80,"wires":[]},{"id":"8bfaf726.fc3378","type":"inject","z":"4757679.43f3b98","name":"","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":170,"y":80,"wires":[["8278afd1.fa8ce"]]},{"id":"4777656.bab3d9c","type":"mqtt in","z":"4757679.43f3b98","name":"","topic":"test","qos":"0","datatype":"auto","broker":"d1a17b07.d315c8","nl":false,"rap":true,"rh":0,"x":200,"y":220,"wires":[["a2a72718.490238"]]},{"id":"a2a72718.490238","type":"debug","z":"4757679.43f3b98","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":480,"y":240,"wires":[]},{"id":"cbc4f707.7e5dd8","type":"template","z":"24981b42.ce91d4","name":"Valores iniciales","field":"payload","fieldType":"msg","format":"handlebars","syntax":"plain","template":"{\n    \"urlBase\":\"https://soa2021.mooo.com/\"\n}","output":"json","x":240,"y":40,"wires":[["70d9f974.7128f8","e3c04447.dfb4d8"]]},{"id":"4da94a2b.0031a4","type":"inject","z":"24981b42.ce91d4","name":"","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":true,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":115,"y":40,"wires":[["cbc4f707.7e5dd8"]],"l":false},{"id":"70d9f974.7128f8","type":"debug","z":"24981b42.ce91d4","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":450,"y":80,"wires":[]},{"id":"e3c04447.dfb4d8","type":"change","z":"24981b42.ce91d4","name":"","rules":[{"t":"set","p":"config","pt":"flow","to":"payload","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":460,"y":40,"wires":[[]]},{"id":"68ea090f.b1bd38","type":"inject","z":"24981b42.ce91d4","name":"","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"5","crontab":"","once":true,"onceDelay":"1","topic":"","payload":"","payloadType":"date","x":85,"y":260,"wires":[["8280bba2.d10498"]],"l":false},{"id":"8280bba2.d10498","type":"change","z":"24981b42.ce91d4","name":"","rules":[{"t":"set","p":"urlBase","pt":"msg","to":"config.urlBase","tot":"flow"},{"t":"set","p":"authtoken","pt":"msg","to":"auth.authtoken","tot":"flow"}],"action":"","property":"","from":"","to":"","reg":false,"x":220,"y":260,"wires":[["5d0854ed.1efe5c"]]},{"id":"5d0854ed.1efe5c","type":"subflow:8d22bb17.6d6ed8","z":"24981b42.ce91d4","name":"","env":[],"x":420,"y":260,"wires":[[],["64d37dbe.54e844","be25a0da.152a3"],["64d37dbe.54e844","c019e86d.9d5a18"],[],[]]},{"id":"e3e20e74.108d","type":"function","z":"8d22bb17.6d6ed8","name":"Parse URL & Token","func":"var authtoken=msg.authtoken;\nvar url=msg.urlBase;\n\nif(!authtoken)\n    authtoken=\"nada\";\nflow.set('authtoken',authtoken);\n\nif(!url) {\n    return [null,{error:\"No se ha definido urlBase\"}];\n}\n\nif(!url.endsWith(\"/\")) {\n    url+=\"/\";\n}\n\nmsg.url=url;\nreturn [msg,null];","outputs":2,"noerr":0,"initialize":"","finalize":"","libs":[],"x":190,"y":40,"wires":[["ef7da121.f2969"],["532780da.20f42"]],"outputLabels":["OK","Err"]},{"id":"532780da.20f42","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"error","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":420,"y":160,"wires":[["dfa3e4e1.f58e58"]]},{"id":"ef7da121.f2969","type":"function","z":"8d22bb17.6d6ed8","name":"Prepare request","func":"msg.url=msg.url+\"auth-info?token=\"+msg.authtoken\nmsg.requestTimeout=1000;\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":400,"y":40,"wires":[["85b1b8cc.cff538"]]},{"id":"85b1b8cc.cff538","type":"http request","z":"8d22bb17.6d6ed8","name":"","method":"GET","ret":"txt","paytoqs":"ignore","url":"","tls":"","persist":false,"proxy":"","authType":"","x":570,"y":40,"wires":[["7bfbf863.f321a8"]]},{"id":"7bfbf863.f321a8","type":"function","z":"8d22bb17.6d6ed8","name":"","func":"\n//node.warn(msg.statusCode);\nif(msg.statusCode==200) {\n    return [msg,null,null,null,null];\n} else if(msg.statusCode==401) {\n    return [null,msg,null,null,null];\n} else if(msg.statusCode==403) {\n    return [null,null,msg,null,null];\n} else if(msg.statusCode==\"ECONNREFUSED\") {\n    return [null,null,null,msg,null];\n} else {\n     return [null,null,null,null,msg];\n}\nreturn msg;\n// 200 -> OK\n// 401 -> No logueado\n// 403 -> No autorizado\n// ECONNREFUSED -> No conectado","outputs":5,"noerr":0,"initialize":"","finalize":"","libs":[],"x":840,"y":40,"wires":[["4854d3b4.14028c"],["715b13e7.13b39c"],["68866108.32f3e"],["67b76846.68e0b8"],["ad149a8c.3d5878"]],"outputLabels":["OK","401 - No autenticado","403 - No autorizado","No conectado","Desconocido"]},{"id":"4854d3b4.14028c","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"Conectado OK","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1215,"y":20,"wires":[["51dfa08a.3a9ad"]],"l":false},{"id":"715b13e7.13b39c","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"No Autenticado","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1215,"y":60,"wires":[["51dfa08a.3a9ad"]],"l":false},{"id":"64d37dbe.54e844","type":"subflow:374210af.de614","z":"24981b42.ce91d4","name":"","env":[],"x":780,"y":260,"wires":[["7fefbb42.a46304","5513ecea.912044"],["cb4a157d.7f73a8"],["4ff2c226.bb1a8c"]]},{"id":"2f2e21bb.b9579e","type":"change","z":"374210af.de614","name":"","rules":[{"t":"set","p":"username","pt":"msg","to":"username","tot":"env"},{"t":"set","p":"password","pt":"msg","to":"password","tot":"env"}],"action":"","property":"","from":"","to":"","reg":false,"x":180,"y":40,"wires":[["ffa757f6.472898"]]},{"id":"be25a0da.152a3","type":"debug","z":"24981b42.ce91d4","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":730,"y":160,"wires":[]},{"id":"ffa757f6.472898","type":"function","z":"374210af.de614","name":"Parse URL","func":"var url=msg.urlBase;\n//flow.set(\"pidiendoToken\",\"no\")\n\nif(!url) {\n    return [null,{error:\"No se ha definido urlBase\"}];\n}\n\nif(!url.endsWith(\"/\")) {\n    url+=\"/\";\n}\n\nmsg.url=url;\nreturn [msg,null];","outputs":2,"noerr":0,"initialize":"","finalize":"","libs":[],"x":350,"y":40,"wires":[["e5547b32.250538"],["a802529.f91e2b"]],"outputLabels":["OK","Err"]},{"id":"a802529.f91e2b","type":"change","z":"374210af.de614","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"error","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":315,"y":180,"wires":[[]],"l":false},{"id":"fa53f5d6.6b42a8","type":"function","z":"374210af.de614","name":"Prepare request","func":"msg.url=msg.url+\"login-user?username=\"+msg.username+\"&password=\"+msg.password\n//node.warn(msg.url)\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":1020,"y":40,"wires":[["7e20680d.4b83c8"]]},{"id":"68866108.32f3e","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"No Autorizado","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1215,"y":100,"wires":[["51dfa08a.3a9ad"]],"l":false},{"id":"67b76846.68e0b8","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"No Conectado","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1215,"y":140,"wires":[["51dfa08a.3a9ad"]],"l":false},{"id":"ad149a8c.3d5878","type":"change","z":"8d22bb17.6d6ed8","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"Desconocido","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1215,"y":180,"wires":[["51dfa08a.3a9ad"]],"l":false},{"id":"c391db61.de3918","type":"link in","z":"8d22bb17.6d6ed8","name":"Entrada de Status","links":["51dfa08a.3a9ad","dfa3e4e1.f58e58"],"x":1775,"y":60,"wires":[[]]},{"id":"51dfa08a.3a9ad","type":"link out","z":"8d22bb17.6d6ed8","name":"","links":["c391db61.de3918"],"x":1425,"y":100,"wires":[]},{"id":"dfa3e4e1.f58e58","type":"link out","z":"8d22bb17.6d6ed8","name":"","links":["c391db61.de3918"],"x":565,"y":160,"wires":[]},{"id":"e5547b32.250538","type":"switch","z":"374210af.de614","name":"Pidiendo Token?","property":"pidiendoToken","propertyType":"flow","rules":[{"t":"eq","v":"no","vt":"str"},{"t":"eq","v":"si","vt":"str"},{"t":"null"}],"checkall":"false","repair":false,"outputs":3,"x":580,"y":40,"wires":[["b3d64da3.1683"],["6734bcea.e29224"],["b3d64da3.1683"]],"outputLabels":["No se está pidiendo token actualmente","Se está pidiendo token actualmente","No se está pidiendo token actualmente"]},{"id":"b3d64da3.1683","type":"change","z":"374210af.de614","name":"Pidiendo token = si","rules":[{"t":"set","p":"pidiendoToken","pt":"flow","to":"si","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":810,"y":40,"wires":[["fa53f5d6.6b42a8"]]},{"id":"fd2c965a.937698","type":"change","z":"374210af.de614","name":"Pidiendo token = no","rules":[{"t":"set","p":"pidiendoToken","pt":"flow","to":"no","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":1620,"y":40,"wires":[[]]},{"id":"803153c.c48a4b","type":"http request","z":"374210af.de614","name":"get Token","method":"POST","ret":"txt","paytoqs":"ignore","url":"","tls":"","persist":false,"proxy":"","authType":"","x":1420,"y":40,"wires":[["fd2c965a.937698","acadbb27.6dcdc8"]]},{"id":"7e20680d.4b83c8","type":"change","z":"374210af.de614","name":"","rules":[{"t":"set","p":"headers","pt":"msg","to":"{\"Contect-Type\":\"application/x-www-form-urlencoded\"}","tot":"json"}],"action":"","property":"","from":"","to":"","reg":false,"x":1230,"y":40,"wires":[["803153c.c48a4b"]]},{"id":"acadbb27.6dcdc8","type":"switch","z":"374210af.de614","name":"","property":"statusCode","propertyType":"msg","rules":[{"t":"eq","v":"200","vt":"num"},{"t":"else"}],"checkall":"true","repair":false,"outputs":2,"x":1570,"y":80,"wires":[["dc3a0292.537d1","18598155.d925af"],["ad8cbc56.8a55a"]]},{"id":"dc3a0292.537d1","type":"json","z":"374210af.de614","name":"","property":"payload","action":"obj","pretty":false,"x":1830,"y":60,"wires":[[]]},{"id":"7fefbb42.a46304","type":"debug","z":"24981b42.ce91d4","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":1060,"y":240,"wires":[]},{"id":"cb4a157d.7f73a8","type":"debug","z":"24981b42.ce91d4","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":1080,"y":320,"wires":[]},{"id":"18598155.d925af","type":"change","z":"374210af.de614","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"\"Token OK, pedido \" & $now()\t","tot":"jsonata"}],"action":"","property":"","from":"","to":"","reg":false,"x":1735,"y":100,"wires":[[]],"l":false},{"id":"ad8cbc56.8a55a","type":"change","z":"374210af.de614","name":"","rules":[{"t":"set","p":"payload","pt":"msg","to":"\"Err: \" & msg.payload & \", pedido \" & $now()\t","tot":"jsonata"}],"action":"","property":"","from":"","to":"","reg":false,"x":1635,"y":140,"wires":[[]],"l":false},{"id":"c019e86d.9d5a18","type":"debug","z":"24981b42.ce91d4","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":680,"y":340,"wires":[]},{"id":"6734bcea.e29224","type":"change","z":"374210af.de614","name":"Pidiendo token...","rules":[{"t":"set","p":"payload","pt":"msg","to":"Pidiendo token...","tot":"str"}],"action":"","property":"","from":"","to":"","reg":false,"x":830,"y":140,"wires":[[]]},{"id":"4ff2c226.bb1a8c","type":"debug","z":"24981b42.ce91d4","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":1120,"y":400,"wires":[]},{"id":"5513ecea.912044","type":"change","z":"24981b42.ce91d4","name":"Set token","rules":[{"t":"set","p":"auth","pt":"flow","to":"{}","tot":"json"},{"t":"set","p":"auth.authtoken","pt":"flow","to":"payload.authtoken","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":1040,"y":160,"wires":[[]]}]
+[
+    {
+        "id": "4757679.43f3b98",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "24981b42.ce91d4",
+        "type": "tab",
+        "label": "Proceso principal",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8d22bb17.6d6ed8",
+        "type": "subflow",
+        "name": "Status Backend",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "e3e20e74.108d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1500,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "7bfbf863.f321a8",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1500,
+                "y": 380,
+                "wires": [
+                    {
+                        "id": "7bfbf863.f321a8",
+                        "port": 1
+                    }
+                ]
+            },
+            {
+                "x": 1500,
+                "y": 420,
+                "wires": [
+                    {
+                        "id": "7bfbf863.f321a8",
+                        "port": 2
+                    }
+                ]
+            },
+            {
+                "x": 1500,
+                "y": 460,
+                "wires": [
+                    {
+                        "id": "7bfbf863.f321a8",
+                        "port": 3
+                    }
+                ]
+            },
+            {
+                "x": 1500,
+                "y": 500,
+                "wires": [
+                    {
+                        "id": "532780da.20f42",
+                        "port": 0
+                    },
+                    {
+                        "id": "7bfbf863.f321a8",
+                        "port": 4
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99",
+        "outputLabels": [
+            "Autenticado OK",
+            "No Autenticado",
+            "No Autorizado",
+            "No Conectado",
+            "Desconocido"
+        ],
+        "status": {
+            "x": 1820,
+            "y": 60,
+            "wires": [
+                {
+                    "id": "c391db61.de3918",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "374210af.de614",
+        "type": "subflow",
+        "name": "Autenticación",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "2f2e21bb.b9579e"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1960,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "dc3a0292.537d1",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1760,
+                "y": 360,
+                "wires": [
+                    {
+                        "id": "a802529.f91e2b",
+                        "port": 0
+                    },
+                    {
+                        "id": "ad8cbc56.8a55a",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1160,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "6734bcea.e29224",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "username",
+                "type": "str",
+                "value": "randy"
+            },
+            {
+                "name": "password",
+                "type": "str",
+                "value": "password"
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99",
+        "outputLabels": [
+            "OK",
+            "ERR",
+            "Pidiendo Token"
+        ],
+        "status": {
+            "x": 1300,
+            "y": 540,
+            "wires": [
+                {
+                    "id": "a802529.f91e2b",
+                    "port": 0
+                },
+                {
+                    "id": "18598155.d925af",
+                    "port": 0
+                },
+                {
+                    "id": "6734bcea.e29224",
+                    "port": 0
+                },
+                {
+                    "id": "ad8cbc56.8a55a",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "d1a17b07.d315c8",
+        "type": "mqtt-broker",
+        "name": "soa2021.mooo.com",
+        "broker": "soa2021.mooo.com",
+        "port": "1883",
+        "tls": "",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8278afd1.fa8ce",
+        "type": "mqtt out",
+        "z": "4757679.43f3b98",
+        "name": "",
+        "topic": "test",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d1a17b07.d315c8",
+        "x": 450,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "8bfaf726.fc3378",
+        "type": "inject",
+        "z": "4757679.43f3b98",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "8278afd1.fa8ce"
+            ]
+        ]
+    },
+    {
+        "id": "4777656.bab3d9c",
+        "type": "mqtt in",
+        "z": "4757679.43f3b98",
+        "name": "",
+        "topic": "test",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "d1a17b07.d315c8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "a2a72718.490238"
+            ]
+        ]
+    },
+    {
+        "id": "a2a72718.490238",
+        "type": "debug",
+        "z": "4757679.43f3b98",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cbc4f707.7e5dd8",
+        "type": "template",
+        "z": "24981b42.ce91d4",
+        "name": "Valores iniciales",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "{\n    \"urlBase\":\"https://soa2021.mooo.com/\"\n}",
+        "output": "json",
+        "x": 240,
+        "y": 40,
+        "wires": [
+            [
+                "70d9f974.7128f8",
+                "e3c04447.dfb4d8"
+            ]
+        ]
+    },
+    {
+        "id": "4da94a2b.0031a4",
+        "type": "inject",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 115,
+        "y": 40,
+        "wires": [
+            [
+                "cbc4f707.7e5dd8"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "70d9f974.7128f8",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e3c04447.dfb4d8",
+        "type": "change",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "config",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68ea090f.b1bd38",
+        "type": "inject",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 85,
+        "y": 260,
+        "wires": [
+            [
+                "8280bba2.d10498"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "8280bba2.d10498",
+        "type": "change",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "urlBase",
+                "pt": "msg",
+                "to": "config.urlBase",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "authtoken",
+                "pt": "msg",
+                "to": "auth.authtoken",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "5d0854ed.1efe5c"
+            ]
+        ]
+    },
+    {
+        "id": "5d0854ed.1efe5c",
+        "type": "subflow:8d22bb17.6d6ed8",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "env": [],
+        "x": 420,
+        "y": 260,
+        "wires": [
+            [],
+            [
+                "64d37dbe.54e844",
+                "be25a0da.152a3"
+            ],
+            [
+                "64d37dbe.54e844",
+                "c019e86d.9d5a18"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e3e20e74.108d",
+        "type": "function",
+        "z": "8d22bb17.6d6ed8",
+        "name": "Parse URL & Token",
+        "func": "var authtoken=msg.authtoken;\nvar url=msg.urlBase;\n\nif(!authtoken)\n    authtoken=\"nada\";\nflow.set('authtoken',authtoken);\n\nif(!url) {\n    return [null,{error:\"No se ha definido urlBase\"}];\n}\n\nif(!url.endsWith(\"/\")) {\n    url+=\"/\";\n}\n\nmsg.url=url;\nreturn [msg,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 40,
+        "wires": [
+            [
+                "ef7da121.f2969"
+            ],
+            [
+                "532780da.20f42"
+            ]
+        ],
+        "outputLabels": [
+            "OK",
+            "Err"
+        ]
+    },
+    {
+        "id": "532780da.20f42",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "error",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 160,
+        "wires": [
+            [
+                "dfa3e4e1.f58e58"
+            ]
+        ]
+    },
+    {
+        "id": "ef7da121.f2969",
+        "type": "function",
+        "z": "8d22bb17.6d6ed8",
+        "name": "Prepare request",
+        "func": "msg.url=msg.url+\"auth-info?token=\"+msg.authtoken\nmsg.requestTimeout=1000;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 40,
+        "wires": [
+            [
+                "85b1b8cc.cff538"
+            ]
+        ]
+    },
+    {
+        "id": "85b1b8cc.cff538",
+        "type": "http request",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 570,
+        "y": 40,
+        "wires": [
+            [
+                "7bfbf863.f321a8"
+            ]
+        ]
+    },
+    {
+        "id": "7bfbf863.f321a8",
+        "type": "function",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "func": "\n//node.warn(msg.statusCode);\nif(msg.statusCode==200) {\n    return [msg,null,null,null,null];\n} else if(msg.statusCode==401) {\n    return [null,msg,null,null,null];\n} else if(msg.statusCode==403) {\n    return [null,null,msg,null,null];\n} else if(msg.statusCode==\"ECONNREFUSED\") {\n    return [null,null,null,msg,null];\n} else {\n     return [null,null,null,null,msg];\n}\nreturn msg;\n// 200 -> OK\n// 401 -> No logueado\n// 403 -> No autorizado\n// ECONNREFUSED -> No conectado",
+        "outputs": 5,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 40,
+        "wires": [
+            [
+                "4854d3b4.14028c"
+            ],
+            [
+                "715b13e7.13b39c"
+            ],
+            [
+                "68866108.32f3e"
+            ],
+            [
+                "67b76846.68e0b8"
+            ],
+            [
+                "ad149a8c.3d5878"
+            ]
+        ],
+        "outputLabels": [
+            "OK",
+            "401 - No autenticado",
+            "403 - No autorizado",
+            "No conectado",
+            "Desconocido"
+        ]
+    },
+    {
+        "id": "4854d3b4.14028c",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Conectado OK",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1215,
+        "y": 20,
+        "wires": [
+            [
+                "51dfa08a.3a9ad"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "715b13e7.13b39c",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No Autenticado",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1215,
+        "y": 60,
+        "wires": [
+            [
+                "51dfa08a.3a9ad"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "64d37dbe.54e844",
+        "type": "subflow:374210af.de614",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "env": [],
+        "x": 780,
+        "y": 260,
+        "wires": [
+            [
+                "7fefbb42.a46304",
+                "5513ecea.912044"
+            ],
+            [
+                "cb4a157d.7f73a8"
+            ],
+            [
+                "4ff2c226.bb1a8c"
+            ]
+        ]
+    },
+    {
+        "id": "2f2e21bb.b9579e",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "username",
+                "pt": "msg",
+                "to": "username",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "password",
+                "pt": "msg",
+                "to": "password",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 40,
+        "wires": [
+            [
+                "ffa757f6.472898"
+            ]
+        ]
+    },
+    {
+        "id": "be25a0da.152a3",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ffa757f6.472898",
+        "type": "function",
+        "z": "374210af.de614",
+        "name": "Parse URL",
+        "func": "var url=msg.urlBase;\n//flow.set(\"pidiendoToken\",\"no\")\n\nif(!url) {\n    return [null,{error:\"No se ha definido urlBase\"}];\n}\n\nif(!url.endsWith(\"/\")) {\n    url+=\"/\";\n}\n\nmsg.url=url;\nreturn [msg,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 40,
+        "wires": [
+            [
+                "e5547b32.250538"
+            ],
+            [
+                "a802529.f91e2b"
+            ]
+        ],
+        "outputLabels": [
+            "OK",
+            "Err"
+        ]
+    },
+    {
+        "id": "a802529.f91e2b",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "error",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 315,
+        "y": 180,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "fa53f5d6.6b42a8",
+        "type": "function",
+        "z": "374210af.de614",
+        "name": "Prepare request",
+        "func": "msg.url=msg.url+\"login-user?username=\"+msg.username+\"&password=\"+msg.password\n//node.warn(msg.url)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 40,
+        "wires": [
+            [
+                "7e20680d.4b83c8"
+            ]
+        ]
+    },
+    {
+        "id": "68866108.32f3e",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No Autorizado",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1215,
+        "y": 100,
+        "wires": [
+            [
+                "51dfa08a.3a9ad"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "67b76846.68e0b8",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No Conectado",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1215,
+        "y": 140,
+        "wires": [
+            [
+                "51dfa08a.3a9ad"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "ad149a8c.3d5878",
+        "type": "change",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Desconocido",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1215,
+        "y": 180,
+        "wires": [
+            [
+                "51dfa08a.3a9ad"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "c391db61.de3918",
+        "type": "link in",
+        "z": "8d22bb17.6d6ed8",
+        "name": "Entrada de Status",
+        "links": [
+            "51dfa08a.3a9ad",
+            "dfa3e4e1.f58e58"
+        ],
+        "x": 1775,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51dfa08a.3a9ad",
+        "type": "link out",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "links": [
+            "c391db61.de3918"
+        ],
+        "x": 1425,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "dfa3e4e1.f58e58",
+        "type": "link out",
+        "z": "8d22bb17.6d6ed8",
+        "name": "",
+        "links": [
+            "c391db61.de3918"
+        ],
+        "x": 565,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e5547b32.250538",
+        "type": "switch",
+        "z": "374210af.de614",
+        "name": "Pidiendo Token?",
+        "property": "pidiendoToken",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "no",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "si",
+                "vt": "str"
+            },
+            {
+                "t": "null"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 580,
+        "y": 40,
+        "wires": [
+            [
+                "b3d64da3.1683"
+            ],
+            [
+                "6734bcea.e29224"
+            ],
+            [
+                "b3d64da3.1683"
+            ]
+        ],
+        "outputLabels": [
+            "No se está pidiendo token actualmente",
+            "Se está pidiendo token actualmente",
+            "No se está pidiendo token actualmente"
+        ]
+    },
+    {
+        "id": "b3d64da3.1683",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "Pidiendo token = si",
+        "rules": [
+            {
+                "t": "set",
+                "p": "pidiendoToken",
+                "pt": "flow",
+                "to": "si",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810,
+        "y": 40,
+        "wires": [
+            [
+                "fa53f5d6.6b42a8"
+            ]
+        ]
+    },
+    {
+        "id": "fd2c965a.937698",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "Pidiendo token = no",
+        "rules": [
+            {
+                "t": "set",
+                "p": "pidiendoToken",
+                "pt": "flow",
+                "to": "no",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1620,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "803153c.c48a4b",
+        "type": "http request",
+        "z": "374210af.de614",
+        "name": "get Token",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1420,
+        "y": 40,
+        "wires": [
+            [
+                "fd2c965a.937698",
+                "acadbb27.6dcdc8"
+            ]
+        ]
+    },
+    {
+        "id": "7e20680d.4b83c8",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{\"Contect-Type\":\"application/x-www-form-urlencoded\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1230,
+        "y": 40,
+        "wires": [
+            [
+                "803153c.c48a4b"
+            ]
+        ]
+    },
+    {
+        "id": "acadbb27.6dcdc8",
+        "type": "switch",
+        "z": "374210af.de614",
+        "name": "",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1570,
+        "y": 80,
+        "wires": [
+            [
+                "dc3a0292.537d1",
+                "18598155.d925af"
+            ],
+            [
+                "ad8cbc56.8a55a"
+            ]
+        ]
+    },
+    {
+        "id": "dc3a0292.537d1",
+        "type": "json",
+        "z": "374210af.de614",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1830,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7fefbb42.a46304",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cb4a157d.7f73a8",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "18598155.d925af",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"Token OK, pedido \" & $now()\t",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1735,
+        "y": 100,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "ad8cbc56.8a55a",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"Err: \" & msg.payload & \", pedido \" & $now()\t",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1635,
+        "y": 140,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "c019e86d.9d5a18",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6734bcea.e29224",
+        "type": "change",
+        "z": "374210af.de614",
+        "name": "Pidiendo token...",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Pidiendo token...",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 830,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ff2c226.bb1a8c",
+        "type": "debug",
+        "z": "24981b42.ce91d4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5513ecea.912044",
+        "type": "change",
+        "z": "24981b42.ce91d4",
+        "name": "Set token",
+        "rules": [
+            {
+                "t": "set",
+                "p": "auth",
+                "pt": "flow",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "auth.authtoken",
+                "pt": "flow",
+                "to": "payload.authtoken",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    }
+]
